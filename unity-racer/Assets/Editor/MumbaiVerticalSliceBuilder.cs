@@ -11,8 +11,10 @@ namespace ProjectStar.Racer.Editor
         [MenuItem("ProjectStar/Build Mumbai Vertical Slice")]
         public static void Build()
         {
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            EnsureFolder("Assets/Scenes");
+            EnsureFolder("Assets/Materials");
 
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var root = new GameObject("PROJECTSTAR_MUMBAI_VERTICAL_SLICE");
 
             var world = new GameObject("World");
@@ -60,7 +62,7 @@ namespace ProjectStar.Racer.Editor
 
             EditorSceneManager.SaveScene(scene, "Assets/Scenes/MumbaiVerticalSlice.unity");
             AssetDatabase.SaveAssets();
-            Debug.Log("Mumbai vertical slice scene scaffold created. Premium assets are intentionally required before visual review.");
+            Debug.Log("Mumbai vertical slice scaffold created. Do not visual-review until premium vehicle, road, streetscape and VFX assets are installed.");
         }
 
         private static Material CreatePlaceholderRoadMaterial()
@@ -71,6 +73,19 @@ namespace ProjectStar.Racer.Editor
             material.SetFloat("_Smoothness", .82f);
             material.SetFloat("_Metallic", .08f);
             return material;
+        }
+
+        private static void EnsureFolder(string fullPath)
+        {
+            if (AssetDatabase.IsValidFolder(fullPath)) return;
+            var split = fullPath.Split('/');
+            var parent = split[0];
+            for (var i = 1; i < split.Length; i++)
+            {
+                var next = parent + "/" + split[i];
+                if (!AssetDatabase.IsValidFolder(next)) AssetDatabase.CreateFolder(parent, split[i]);
+                parent = next;
+            }
         }
     }
 }
