@@ -104,7 +104,7 @@ namespace ProjectStar.Racer
 
         static void BuildPalm(Vector3 p,Transform parent)
         {
-            var trunk=Cube("Palm",p+new Vector3(0,2.8f,0),new Vector3(.35f,5.6f,.35f),darkMat,parent);
+            Cube("Palm",p+new Vector3(0,2.8f,0),new Vector3(.35f,5.6f,.35f),darkMat,parent);
             for(int i=0;i<6;i++){var leaf=Cube("Leaf",p+new Vector3(0,5.7f,0),new Vector3(.18f,.12f,3.5f),greenMat,parent); leaf.transform.rotation=Quaternion.Euler(-12,i*60,0);}
         }
 
@@ -152,16 +152,22 @@ namespace ProjectStar.Racer
 
         static void SetupCamera(Transform target)
         {
-            var cam=Camera.main; if(!cam){var c=new GameObject("Main Camera"); c.tag="MainCamera"; cam=c.AddComponent<Camera>(); c.AddComponent<AudioListener>();}
+            var cam=Camera.main;
+            if(!cam)
+            {
+                var c=new GameObject("Main Camera");
+                c.tag="MainCamera";
+                cam=c.AddComponent<Camera>();
+            }
             cam.fieldOfView=64; cam.allowHDR=true; cam.nearClipPlane=.15f; cam.farClipPlane=650;
             var follow=cam.gameObject.GetComponent<ChaseCamera>() ?? cam.gameObject.AddComponent<ChaseCamera>(); follow.target=target;
         }
 
         static void BuildRain(Transform target)
         {
-            var go=new GameObject("MonsoonRain"); var ps=go.AddComponent<ParticleSystem>(); var main=ps.main; main.loop=true; main.startLifetime=1.6f; main.startSpeed=28f; main.startSize=.035f; main.maxParticles=1100; main.simulationSpace=ParticleSystemSimulationSpace.World;
-            var em=ps.emission; em.rateOverTime=Application.isMobilePlatform?420:700; var shape=ps.shape; shape.shapeType=ParticleSystemShapeType.Box; shape.scale=new Vector3(28,1,38); var rend=ps.GetComponent<ParticleSystemRenderer>(); rend.sharedMaterial=Mat("Rain",new Color(.62f,.78f,1f),.7f);
-            go.AddComponent<RainFollow>().target=target;
+            var go=new GameObject("MonsoonRain");
+            var rain=go.AddComponent<RainStreakSystem>();
+            rain.target=target;
         }
     }
 }
