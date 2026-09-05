@@ -1,0 +1,24 @@
+{
+  "template": "racer-v1",
+  "location": "mumbai",
+  "track": "marine-drive-night-loop",
+  "weather": "monsoon",
+  "timeOfDay": "night",
+  "vehicle": "street-racer",
+  "laps": 3,
+  "opponents": 7,
+  "traffic": true,
+  "difficulty": "medium",
+  "brandingSlots": ["start-gantry", "barriers", "billboards", "hud"],
+  "qualityTarget": "crazygames-plus",
+  "mobileTargetFps": 45,
+  "desktopTargetFps": 60,
+  "visualPriorities": [
+    "vehicle-detail",
+    "wet-asphalt",
+    "reflections",
+    "mumbai-streetscape",
+    "rain-spray",
+    "cinematic-chase-camera"
+  ]
+}
